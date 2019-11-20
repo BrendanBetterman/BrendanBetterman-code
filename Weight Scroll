@@ -1,0 +1,135 @@
+//This code is for vertical and horizotal weighted swiping 
+//This code is the main loop of the game
+//global.scroll is the modifier for the movement
+if global.shop2=1 or global.shopopen=1{//test if the shop menu is open before it runs
+    sense= weight/2 
+    if global.scroll>=0-sense {
+        if global.shopopen=1 and global.scroll<=2304-sense {
+            global.scroll= global.scroll+sense
+        }else if global.shop2=1 and global.scroll<=12*128-sense{
+            global.scroll= global.scroll+sense
+        }else{
+            weight = 0
+        }
+        }
+    if abs(weight)>100{
+        weight=abs(weight)/weight*100 //maintains the sign without making multiple if statments
+    }
+    if abs(weight)>= 1{
+        weight =weight-(abs(weight)/weight)/2
+    }else{
+        weight=0
+    }
+}
+if mouse_check_button_released(mb_left) and global.shopopen=1{
+    if abs(oldspeed-oldspeed1) > .1{
+        weight=oldspeed-oldspeed1
+    }else{
+        weight=0
+    }
+}
+if mouse_check_button_released(mb_left) and (global.shop2=1){//shop2 tree lock
+    //its inverted
+    //show_debug_message(string((global.scroll div 216)))
+    if (global.scroll mod 216)<=-108{//up
+        global.scroll = ((global.scroll div 216)-1)*216
+    }else if global.scroll mod 216 >-108{//down
+        global.scroll = ((global.scroll div 216))*216
+    }
+}
+
+//rounding hold
+
+hold= (abs(global.scroll div 108)/2)
+if hold+.5 >=floor(hold)+1{
+    hold=floor(hold)+1
+}else{
+    hold = floor(hold)
+}
+if global.shop2=1 {
+    global.trees=global.treeArray[hold]
+    }
+    /* image updataing
+if global.shop2=1 {
+    global.trees=global.treeArray[hold]//abs(global.scroll div 216)
+    test =global.collectArray[hold]
+    if test=="yes"{
+        global.prevspr=global.treeArray[hold]
+    }
+}
+/*
+if global.shop2=0 {//Checks if you have the tree before you can buy it
+                    global.trees=global.prevspr  
+                }
+                */
+//vertical
+if mouse_check_button_pressed(mb_left){
+    if global.shopopen=1{
+        oldmos1 = mouse_y
+        oldmos  = mouse_y
+        weight=0
+        oldspeed=0
+        oldspeed1=0
+    }else{ 
+        oldmos=0
+    }
+}
+if mouse_check_button(mb_left){
+    weight = 0
+    if global.shopopen=1 {
+        if mouse_y <=1184 and mouse_y >=544{
+            if mouse_x <= 1000 and mouse_x >=96{
+                sens= ((oldmos1-mouse_y))
+                if global.scroll >=0-sens and global.scroll <= 2304-sens{
+                    global.scroll = global.scroll +sens
+                    oldmos1 =oldmos1-sens
+                }else{
+                   
+                }
+                oldspeed=oldspeed1
+                oldspeed1=mouse_y
+            }
+        }else{
+        oldspeed=0
+        oldspeed1=0
+        }
+    }
+}
+
+//Slider horizontal
+
+if mouse_check_button_pressed(mb_left){
+    if global.shop2=1{
+        oldmos1 = mouse_x
+        oldmos  = mouse_x
+        weight=0
+        oldspeed=0
+        oldspeed1=0
+    }else{
+        oldmos=0
+    }
+}
+
+
+if mouse_check_button(mb_left){
+    weight = 0
+    if global.shop2=1 {
+        if mouse_y <=1024 and mouse_y >=736{
+            if mouse_x <= 1080 and mouse_x >=0{
+                sens= ((oldmos1-mouse_x))
+                if global.scroll <=0+sens+2*216 and global.scroll >= -12*216+sens{
+                    global.scroll = global.scroll -sens
+                    oldmos1 =oldmos1-sens
+                }
+                oldspeed=oldspeed1
+                oldspeed1=mouse_x
+            }
+        }else{
+        oldspeed=0
+        oldspeed1=0
+        }
+    }
+}
+
+
+
